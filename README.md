@@ -1,42 +1,23 @@
-# market-risk-monte-carlo
-Monte Carlo (GBM) simulation of YPF stock price with a SQLite ETL step and Value-at-Risk (VaR) estimation in Python.
-# YPF Monte Carlo VaR (GBM + SQLite ETL)
+# 📉 Financial Risk Simulation: YPF (Monte Carlo + GBM)
 
-**English:** Monte Carlo simulation of YPF stock price using **Geometric Brownian Motion (GBM)**, with a simple **SQLite ETL step** (post-2022 filtering) and **Value at Risk (VaR)** estimation.
+> **Summary:** Monte Carlo simulation (GBM) of YPF prices (252 trading days, 1,000 paths) + VaR estimation.
 
-**Español (resumen):** Simulación Monte Carlo (GBM) para proyectar el precio de YPF a 1 año, filtrando el régimen post-2022 con SQL y estimando riesgo (VaR).
+## 📌 Overview
+I simulate the evolution of YPF’s price using **Geometric Brownian Motion (GBM)** calibrated with **log returns** from **January 2022** onward (post-pandemic regime), and estimate risk via **Value at Risk (VaR 95%)**.
 
----
+## 🧪 Data
+- Source: `yfinance`
+- Ticker: `YPF`
+- Window: 2020–2024 (filtered from 2022 onward using SQL)
 
-## What this repo does
-- Downloads historical **Adjusted Close** prices for `YPF` using `yfinance` (2020-01-01 → 2024-12-01)
-- Stores data in **SQLite** and filters the series from **2022-01-01** onward (post-pandemic regime)
-- Calibrates GBM parameters from **log-returns**
-- Runs a **Monte Carlo simulation**:
-  - Trading days: **252**
-  - Paths: **1000**
-- Produces:
-  - Simulated price paths (first 100 shown for readability)
-  - Terminal price distribution + reference lines (mean / today / VaR)
-  - Summary metrics (expected return, probability of gain)
+## 🧠 Method
+1. Download adjusted prices (`Adj Close`)
+2. Store + filter data in **SQLite** (`WHERE Date >= '2022-01-01'`)
+3. Estimate parameters (μ, σ) from log returns
+4. Run Monte Carlo simulation (252 days, 1,000 paths)
+5. Metrics: terminal price distribution, **VaR (95%)**, probability of profit
 
----
-
-## Method (high level)
-We model prices with **Geometric Brownian Motion**:
-
-$
-S_{t} = S_{t-1}\,\exp\Big((\mu - 0.5\sigma^2) + \sigma Z_t\Big)
-$
-
-where ($Z_t$) is a standard normal shock. Parameters are estimated from historical **log-returns**.
-
-**VaR (95%) in this notebook** is computed as the **5th percentile of the terminal price distribution** (i.e., a price “floor” under this model).
-
----
-
-## Quickstart
-
-### 1) Install dependencies
+## 🚀 Quickstart
 ```bash
 pip install -r requirements.txt
+jupyter notebook
