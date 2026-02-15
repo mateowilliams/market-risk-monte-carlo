@@ -25,9 +25,9 @@ Monte Carlo (GBM) simulation of YPF stock price with a SQLite ETL step and Value
 ## Method (high level)
 We model prices with **Geometric Brownian Motion**:
 
-\[
+$\[
 S_{t} = S_{t-1}\,\exp\Big((\mu - 0.5\sigma^2) + \sigma Z_t\Big)
-\]
+\]$
 
 where \(Z_t\) is a standard normal shock. Parameters are estimated from historical **log-returns**.
 
